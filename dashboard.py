@@ -21,7 +21,7 @@ if fl is not None:
 
 else:
      
-     os.chdir(r"/Users/rishabhsahoo/Desktop/Dashboard")
+     # os.chdir(r"./Dashboard")
      df = pd.read_csv("Sample - Superstore (1).csv")
 
 
