@@ -205,10 +205,20 @@ else:
     except FileNotFoundError:
         st.error("Default dataset not found. Please upload a file.")
         st.stop()
+    except Exception as e:
+        st.error(f"Error loading default dataset: {e}")
+        st.stop()
 
 col1, col2 = st.columns((2,))
 
-df["Order Date"] = pd.to_datetime(df["Order Date"])
+try:
+    df["Order Date"] = pd.to_datetime(df["Order Date"])
+except KeyError:
+    st.error("The uploaded file does not contain 'Order Date' column.")
+    st.stop()
+except Exception as e:
+    st.error(f"Error converting 'Order Date' to datetime: {e}")
+    st.stop()
 
 # Getting the min and max date
 startDate = df["Order Date"].min()
@@ -325,4 +335,5 @@ with st.expander("View Data"):
 # Download original DataSet
 csv = df.to_csv(index=False).encode('utf-8')
 st.download_button('Download Data', data=csv, file_name="Data.csv", mime="text/csv")
+
 
